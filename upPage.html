@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>upload</title>
+        <style>
+            #nav{
+                list-style: none;
+                display: flex;
+            }
+            #nav li{
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <ul id="nav">
+            <li><a href="/upPage">上传图片</a></li>
+            <li><a href="/feedPage">发布动态</a></li>
+            <li><a href="/purgePage">清除缓存</a></li>
+        </ul>
+        <h1>图片上传</h1>
+        <select onchange="changeMode(this.value)">
+            <option value="local">本地</option>
+            <option value="remote">远程</option>
+        </select>
+        <br />
+        <div id="remoteMode" style="display:none">
+            <p>远程上传模式</p>
+            <form id="text_form" method="post" enctype="multipart/form-data">
+                <!--file定义输入字段和 "浏览"按钮，供文件上传。-->
+                远程地址：<input type="text" name="url"/><br />
+                referer(可选)：<input type="text" name="ref"/><br />
+                <input type="submit" value="上传" />
+            </form>
+        </div>
+        <div id="localMode">
+            <p>本地上传模式</p>
+            <div id="divPreview">
+                <img id="imgHeadPhoto" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" style="width: 160px; height: 170px; border: solid 1px #d2e2e2;" alt="" />
+            </div>
+            <!--enctype 属性规定在发送到服务器之前应该如何对表单数据进行编码,"multipart/form-data"在使用包含文件上传控件的表单时，必须使用该值。-->
+            <form id="img_form" method="post" enctype="multipart/form-data">
+                <!--file定义输入字段和 "浏览"按钮，供文件上传。-->
+                <input type="file" id="image" name="image" onchange="PreviewImage(this,'imgHeadPhoto','divPreview');" accept="image/gif,image/jpeg,image/jpg,image/png"  size="20" />
+                <input type="submit" value="上传" />
+            </form>
+        </div>
+        <div><ol id="result"></ol></div>
+        <script src="//upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript">
+        function changeMode(value){
+            console.log(value);
+            switch(value)
+            {
+                case "local":
+                    $("#remoteMode").css("display","none");
+                    $("#localMode").css("display","block");
+                    break;
+                case "remote":
+                    $("#localMode").css("display","none");
+                    $("#remoteMode").css("display","block");
+                    break;
+            }
+        }
+        //js本地图片预览，兼容ie[6-9]、火狐、Chrome17+、Opera11+、Maxthon3
+        function PreviewImage(fileObj, imgPreviewId, divPreviewId) {
+            var allowExtention = ".jpg,.bmp,.gif,.png"; //允许上传文件的后缀名document.getElementById("hfAllowPicSuffix").value;
+            var extention = fileObj.value.substring(fileObj.value.lastIndexOf(".") + 1).toLowerCase();
+            var browserVersion = window.navigator.userAgent.toUpperCase();
+            if (allowExtention.indexOf(extention) > -1) {
+                if (fileObj.files) { //HTML5实现预览，兼容chrome、火狐7+等
+                    if (window.FileReader) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            document.getElementById(imgPreviewId).setAttribute("src", e.target.result);
+                        }
+                        reader.readAsDataURL(fileObj.files[0]);
+                    } else if (browserVersion.indexOf("SAFARI") > -1) {
+                        alert("不支持Safari6.0以下浏览器的图片预览!");
+                    }
+                } else if (browserVersion.indexOf("MSIE") > -1) {
+                    if (browserVersion.indexOf("MSIE 6") > -1) { //ie6
+                        document.getElementById(imgPreviewId).setAttribute("src", fileObj.value);
+                    } else { //ie[7-9]
+                        fileObj.select();
+                        if (browserVersion.indexOf("MSIE 9") > -1)
+                            fileObj.blur(); //不加上document.selection.createRange().text在ie9会拒绝访问
+                        var newPreview = document.getElementById(divPreviewId + "New");
+                        if (newPreview == null) {
+                            newPreview = document.createElement("div");
+                            newPreview.setAttribute("id", divPreviewId + "New");
+                            newPreview.style.width = document.getElementById(imgPreviewId).width + "px";
+                            newPreview.style.height = document.getElementById(imgPreviewId).height + "px";
+                            newPreview.style.border = "solid 1px #d2e2e2";
+                        }
+                        newPreview.style.filter =
+                            "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src='" + document.selection
+                            .createRange().text + "')";
+                        var tempDivPreview = document.getElementById(divPreviewId);
+                        tempDivPreview.parentNode.insertBefore(newPreview, tempDivPreview);
+                        tempDivPreview.style.display = "none";
+                    }
+                } else if (browserVersion.indexOf("FIREFOX") > -1) { //firefox
+                    var firefoxVersion = parseFloat(browserVersion.toLowerCase().match(/firefox\/([\d.]+)/)[1]);
+                    if (firefoxVersion < 7) { //firefox7以下版本
+                        document.getElementById(imgPreviewId).setAttribute("src", fileObj.files[0].getAsDataURL());
+                    } else { //firefox7.0+                    
+                        document.getElementById(imgPreviewId).setAttribute("src", window.URL.createObjectURL(fileObj.files[
+                            0]));
+                    }
+                } else {
+                    document.getElementById(imgPreviewId).setAttribute("src", fileObj.value);
+                }
+            } else {
+                alert("仅支持" + allowExtention + "为后缀名的文件!");
+                fileObj.value = ""; //清空选中文件
+                if (browserVersion.indexOf("MSIE") > -1) {
+                    fileObj.select();
+                    document.selection.clear();
+                }
+                fileObj.outerHTML = fileObj.outerHTML;
+            }
+            return fileObj.value; //返回路径
+        }
+        
+        $('#text_form').submit(function (e) {
+            e.preventDefault();
+            var data=new FormData(this);//获取非文本类的数据
+            $.ajax({
+                url:"up",//处理页面的路径
+                data:data,//通过json格式将一组数据传过去
+                type:"post",//数据的提交和传递方式，最好用POST
+                dataType:"json",//页面返回值的类型，共有三种：TEXT,JSON,XML可选
+                cache:false,
+                contentType:false,
+                processData:false,
+                success:function(res){//回调函数：如果ajax调用成功，就执行这个success后面的函数，(data)当做参数返回过来
+                    console.log(res)
+                    if(res.status === 200)
+                    {
+                        $("#result").append("<li>" + location.origin + res.detail.url + "&nbsp;|<span style=\"color:blue\">" + res.detail.msg + "</span></li>");
+                    }else{
+                        $("#result").append("<li>" + res.detail.ori + "&nbsp;|<span style=\"color:red\">" + res.detail.msg + "</span></li>");
+                    }
+                },
+                error: function (err) {
+                    //  alert("error")
+                    console.log(err)
+                }
+            });
+        });
+        $('#img_form').submit(function (e) {
+            e.preventDefault();
+             var data=new FormData(this);//获取非文本类的数据
+             $.ajax({
+                url:"up",//处理页面的路径
+                data:data,//通过json格式将一组数据传过去
+                type:"post",//数据的提交和传递方式，最好用POST
+                dataType:"json",//页面返回值的类型，共有三种：TEXT,JSON,XML可选
+                cache:false,
+                contentType:false,
+                processData:false,
+                success:function(res){//回调函数：如果ajax调用成功，就执行这个success后面的函数，(data)当做参数返回过来
+                    if (res.flag===1){
+                        $("#result").append("<li>" + location.origin + res.detail.url + "&nbsp;|上传成功！</li>");
+                    } else if(res.flag===2){
+                        $("#result").append("<li>" + location.origin + res.detail.url + "&nbsp;|已存在</li>");
+                    }else if(res.flag===3){
+                        alert('图片格式错误，请重试！')
+                    }else{
+                        alert('未知错误，请重试！')
+                    }
+                },
+                error: function () {
+                    alert("error")
+                }
+            });
+        });
+        </script>
+    </body>
+
+</html>

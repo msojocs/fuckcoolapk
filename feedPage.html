@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>发布</title>
+        <style>
+            #nav{
+                list-style: none;
+                display: flex;
+            }
+            #nav li{
+                margin-left: 10px;
+            }
+        </style>
+        <link crossorigin="anonymous" integrity="sha384-bboc2lLlsFOpYLPbDeFw9e76cK8dYWO2qXsl43ln9dHBYG38vwzdVGGRTGQmzl7V" href="https://lib.baomitu.com/limonte-sweetalert2/8.11.8/sweetalert2.min.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <ul id="nav">
+            <li><a href="/upPage">上传图片</a></li>
+            <li><a href="/feedPage">发布动态</a></li>
+            <li><a href="/purgePage">清除缓存</a></li>
+        </ul>
+        <p style="color:red">账号密码只用于获取cookie，服务器并不会存储你的账号密码信息，如有疑虑可使用后立即更改密码，或者不使用本工具。</p>
+        <h3>酷安登录</h3>
+        <form id="login_form" method="post" enctype="multipart/form-data">
+            账号：<input type="text" name="cool_user"/><br />
+            密码：<input type="text" name="cool_pass"/><br/>
+            <div id="yzm" style="display:none">
+                <img src="" onclick="refreshCap(this)"/><br />
+                <input id="hash" type="text" name="hash" hidden/>
+                验证码：<input id="captcha" type="text" name="captcha"/>
+                <input id="sessid" type="text" name="sessid" hidden/>
+            </div>
+            <br/>
+            <input type="submit" value="登录" />
+        </form>
+        Cookie:<br /><input id="cookie" value="" readonly />
+        <br />
+        <h3>动态背景：</h3>
+        <form id="img_form" method="post" enctype="multipart/form-data">
+            <input type="file" id="image" name="image" accept="image/gif,image/jpeg,image/jpg,image/png" />
+            <input id="backUpload" type="submit" value="上传" />
+        </form>
+        <form id="feed_form" method="post" enctype="multipart/form-data">
+            <h3>发布类型：</h3>
+            <select name="type" onchange="typeChange(this.value)">
+                <option value="feed" selected="true">动态</option>
+                <option value="picture">酷图</option>
+                <option value="feedReply">动态回复</option>
+                <option value="replyReply">评论回复</option>
+            </select>
+            <h3>内容：</h3>
+            <textarea name="text" style="width: 50%;"></textarea>
+            <h3>图片(一行一张)：</h3>
+            <p>图片仅支持那些不需要验证的链接（referer之类的）</p>
+            <textarea name="pics" style="width: 50%;"></textarea>
+            <div id="targetId" style="display:none">
+                <h3>目标ID：</h3>
+                <input type="text" name="targetId"/>
+                </div>
+            <br />
+            <h3>设备：</h3>(感谢酷安 <a href="http://www.coolapk.com/u/497671" target="_blank">@KHwang9883</a> 的<a href="https://github.com/KHwang9883/MobileModels" target="_blank">项目</a>)
+            <div class="devices" name="device"></div>
+            <br />
+            <input type="submit" value="发布" />
+        </form>
+        <br />
+        支持缩略图的站点：
+        <ul>
+            <li>alphacoders.com</li>
+            <li>pixiv反代</li>
+        </ul>
+        <script src="//upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.3.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha384-69o/1X+1UgjbSZElLKjGpfMiS6n/XpZvgAhbsYr4PmEkzdHTAmP7x/OKrpu/QrUd" src="https://lib.baomitu.com/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
+        <script>
+            var coolCookie = localStorage.getItem('Coolapk_Cookie');
+            if(coolCookie)
+                $("#cookie")[0].value = decodeURI(coolCookie);
+            function typeChange(value){
+                console.log(value);
+                switch(value)
+                {
+                    case "feedReply":
+                    case "replyReply":
+                        $("#targetId").css("display","block");
+                        break;
+                    default:
+                        $("#targetId").css("display","none");
+                        break;
+                }
+            }
+            window.onload = function(){$.ajax({
+                url:"getDevices",//处理页面的路径
+                type:"post",//数据的提交和传递方式，最好用POST
+                dataType:"json",//页面返回值的类型，共有三种：TEXT,JSON,XML可选
+                cache:false,
+                contentType:false,
+                processData:false,
+                success:function(res){//回调函数：如果ajax调用成功，就执行这个success后面的函数，(data)当做参数返回过来
+                    createSelect(res.data);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });}
+            function createSelect(cityData) {
+    			if (cityData.length < 1) {
+    				return
+    			}
+    			var sele = document.createElement("select");
+    			sele.className = 'form-control';
+    			if(cityData[0].name)sele.name = cityData[0].name;
+    			sele.add(new Option("-请选择-", -1));
+    			for (var i = 0; i < cityData.length; i++) {
+    				sele.add(new Option(cityData[i].text, cityData[i].value));
+    			}
+    			sele.onchange = function() {
+    				while (this != this.parentNode.lastChild) {
+    					this.parentNode.removeChild(this.parentNode.lastChild);
+    				}
+    				var i = this.selectedIndex;
+    				var cate = cityData[i - 1];
+    				if (i != 0 && cate.children) {
+    					createSelect(cate.children); // 递归调用
+    				}
+    			};
+    			$(".devices").get(0).appendChild(sele);
+            };
+            function refreshCap(cap){
+                var data = new FormData();//获取非文本类的数据
+                data.set('type', "getCaptcha");
+                data.set('sessid', $("#sessid")[0].value);
+                $.ajax({
+                    url:"doLogin",//处理页面的路径
+                    data:data,//通过json格式将一组数据传过去
+                    type:"post",//数据的提交和传递方式，最好用POST
+                    dataType:"json",//页面返回值的类型，共有三种：TEXT,JSON,XML可选
+                    cache:false,
+                    contentType:false,
+                    processData:false,
+                    success:function(res){//回调函数：如果ajax调用成功，就执行这个success后面的函数，(data)当做参数返回过来
+                        console.log(res);
+                        $("#yzm img")[0].src = res[0];
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+            $('#img_form').submit(function (e) {
+                e.preventDefault();
+                CoolCookie = localStorage.getItem('Coolapk_Cookie')
+                if(CoolCookie.indexOf("uid") == -1 || CoolCookie.indexOf("username") == -1 || CoolCookie.indexOf("token") == -1 )
+                {
+                    swal.fire(
+                        "Cookie错误",
+                        "你可能没有登录",
+                        "error"
+                    );
+                    return;
+                }
+                Swal.fire('上传中……','由于服务器与阿里云oss通信较慢，故上传时间会偏长（昨天就很快来着）');
+                var data = new FormData(this);//获取非文本类的数据
+                data.set('cookie', localStorage.getItem('Coolapk_Cookie'));
+                $.ajax({
+                    url:"changeBackPic",//处理页面的路径
+                    data:data,//通过json格式将一组数据传过去
+                    type:"post",//数据的提交和传递方式，最好用POST
+                    dataType:"json",//页面返回值的类型，共有三种：TEXT,JSON,XML可选
+                    cache:false,
+                    contentType:false,
+                    processData:false,
+                    success:function(res){//回调函数：如果ajax调用成功，就执行这个success后面的函数，(data)当做参数返回过来
+                        console.log(res)
+                        if(res.status != 200)
+                        {
+                            if(res.message){
+                                swal.fire(
+                                  '错误',
+                                  res.message,
+                                  'error'
+                                )
+                            }else if(res.msg)
+                            {
+                                swal.fire(
+                                    "异常",
+                                    res.msg,
+                                    "error"
+                                );
+                            }
+                        }else
+                        {
+                            swal.fire(
+                              '结果',
+                              res.msg.data,
+                              'info'
+                            )
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err)
+                        swal.fire(
+                          '异常',
+                          JSON.stringify(err),
+                          'error'
+                        )
+                    }
+                });
+            });
+            $('#login_form').submit(function (e) {
+                e.preventDefault();
+                var data = new FormData(this);//获取非文本类的数据
+                data.set('type', "login");
+                $.ajax({
+                    url:"doLogin",//处理页面的路径
+                    data:data,//通过json格式将一组数据传过去
+                    type:"post",//数据的提交和传递方式，最好用POST
+                    dataType:"json",//页面返回值的类型，共有三种：TEXT,JSON,XML可选
+                    cache:false,
+                    contentType:false,
+                    processData:false,
+                    success:function(res){//回调函数：如果ajax调用成功，就执行这个success后面的函数，(data)当做参数返回过来
+                        // console.log(res)
+                        switch(res.status)
+                        {
+                            case 200:
+                                $("#cookie")[0].value = decodeURI(res.cookie);
+                                localStorage.setItem("Coolapk_Cookie", res.cookie)
+                                break;
+                            case 405:
+                                // 验证码
+                                $("#hash")[0].value = res.ret.hash;
+                                $("#sessid")[0].value = res.ret.sessid;
+                                $("#yzm img")[0].src = res.ret.captcha;
+                                $("#yzm").css("display","block");
+                                break;
+                            default:
+                                $("#cookie")[0].value = res.msg;
+                                break;
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err)
+                        swal.fire(
+                          '异常',
+                          JSON.stringify(err),
+                          'error'
+                        )
+                    }
+                });
+            });
+            $('#feed_form').submit(function (e) {
+                Swal.fire('发布中……');
+                e.preventDefault();
+                var data=new FormData(this);//获取非文本类的数据
+                data.set('cookie', $("#cookie")[0].value);
+                
+                $.ajax({
+                    url:"doFeed",//处理页面的路径
+                    data:data,//通过json格式将一组数据传过去
+                    type:"post",//数据的提交和传递方式，最好用POST
+                    dataType:"json",//页面返回值的类型，共有三种：TEXT,JSON,XML可选
+                    cache:false,
+                    contentType:false,
+                    processData:false,
+                    success:function(res){//回调函数：如果ajax调用成功，就执行这个success后面的函数，(data)当做参数返回过来
+                        console.log(res);
+                        switch(res.status)
+                        {
+                            case 200:
+                                 swal.fire(
+                                    "成功",
+                                    "发布成功",
+                                    "success"
+                                );
+                                break;
+                            case -5:
+                                swal.fire(
+                                    "错误",
+                                    res.msg,
+                                    "error"
+                                );
+                                break;
+                            default:
+                                swal.fire(
+                                    "未识别错误",
+                                    JSON.stringify(res),
+                                    "info"
+                                );
+                                break;
+                        }
+                    },
+                    error: function (err) {
+                        //  alert("error")
+                        console.log("error", err)
+                        swal.fire(
+                          '异常',
+                          JSON.stringify(err),
+                          'error'
+                        )
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,207 @@
+<IfModule LiteSpeed> 
+RewriteEngine On
+RewriteRule getImg/.*\.(jpg|png|jpeg)?$ - [E=cache-control:max-age=31536000]
+RewriteRule imgRedict/.*\.(pic|jpg|png|jpeg)?$ - [E=cache-control:max-age=31536000]
+</IfModule>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^upPage.html - [F,L]
+RewriteRule ^purgePage.html - [F,L]
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php72” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php72 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+
+# BEGIN cPanel-generated php ini directives, do not edit
+# Manual editing of this file may result in unexpected behavior.
+# To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
+# For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+<IfModule php5_module>
+   php_flag asp_tags Off
+   php_flag display_errors Off
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 1000
+   php_value memory_limit 32M
+   php_value post_max_size 8M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php56"
+   php_value upload_max_filesize 4M
+   php_flag zlib.output_compression On
+</IfModule>
+<IfModule lsapi_module>
+   php_flag asp_tags Off
+   php_flag display_errors Off
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 1000
+   php_value memory_limit 32M
+   php_value post_max_size 8M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php56"
+   php_value upload_max_filesize 4M
+   php_flag zlib.output_compression On
+</IfModule>
+# END cPanel-generated php ini directives, do not edit
+
+RewriteCond %{HTTP_REFERER} !^http://admin.hk.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://admin.hk.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://api.hitokoto.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://api.hitokoto.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://api.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://api.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://api.pixiv.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://api.pixiv.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://api.randbg.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://api.randbg.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://coolapk.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://coolapk.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://headers.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://headers.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://hitokoto.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://hitokoto.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://i.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://i.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://live2d.api.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://live2d.api.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://mrp.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://mrp.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://nav.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://nav.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://pan.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://pan.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://skymobiapp.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://skymobiapp.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://spd.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://spd.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://spd.skymobiapp.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://spd.skymobiapp.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://vcerror.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://vcerror.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.admin.hk.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.admin.hk.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.api.hitokoto.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.api.hitokoto.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.api.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.api.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.api.pixiv.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.api.pixiv.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.api.randbg.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.api.randbg.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.coolapk.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.coolapk.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.headers.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.headers.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.hitokoto.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.hitokoto.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.i.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.i.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.live2d.api.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.live2d.api.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.mrp.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.mrp.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.nav.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.nav.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.pan.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.pan.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.skymobiapp.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.skymobiapp.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.spd.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.spd.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.spd.skymobiapp.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.spd.skymobiapp.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.vcerror.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.vcerror.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://admin.hk.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://admin.hk.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://api.hitokoto.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://api.hitokoto.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://api.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://api.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://api.pixiv.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://api.pixiv.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://api.randbg.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://api.randbg.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://coolapk.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://coolapk.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://headers.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://headers.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://hitokoto.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://hitokoto.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://i.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://i.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://live2d.api.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://live2d.api.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://mrp.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://mrp.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://nav.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://nav.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://pan.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://pan.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://skymobiapp.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://skymobiapp.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://spd.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://spd.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://spd.skymobiapp.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://spd.skymobiapp.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://vcerror.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://vcerror.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.admin.hk.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.admin.hk.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.api.hitokoto.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.api.hitokoto.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.api.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.api.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.api.pixiv.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.api.pixiv.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.api.randbg.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.api.randbg.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.coolapk.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.coolapk.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.headers.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.headers.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.hitokoto.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.hitokoto.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.i.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.i.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.live2d.api.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.live2d.api.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.mrp.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.mrp.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.nav.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.nav.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.pan.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.pan.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.skymobiapp.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.skymobiapp.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.spd.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.spd.jysafe.cn$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.spd.skymobiapp.com/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.spd.skymobiapp.com$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.vcerror.jysafe.cn/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.vcerror.jysafe.cn$      [NC]
+RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
+

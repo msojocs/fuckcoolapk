@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>缓存清理</title>
+        <style>
+            #nav{
+                list-style: none;
+                display: flex;
+            }
+            #nav li{
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <ul id="nav">
+            <li><a href="/upPage">上传图片</a></li>
+            <li><a href="/feedPage">发布动态</a></li>
+            <li><a href="/purgePage">清除缓存</a></li>
+        </ul>
+        <form id="url_form" method="post" enctype="multipart/form-data">
+            <textarea id="urls" name="urls" oninput="checkTxt(this.value)" style="width:500px"></textarea>
+            <br />
+            <input type="submit" value="清理" />
+        </form>
+        <div><ol id="result"></ol></div>
+        <script src="//upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript">
+        function checkTxt(text){
+            arr = text.split("\n").reverse();
+            var html = "";
+            var id;
+            for(id in arr)
+            {
+                html += "<li>" + arr[id] + "|<span id=\"" + id + "\">wait</span></li>";
+            }
+            $("#result li").remove();
+            $("#result").append(html);
+        }
+        function setHeight(element) {
+          $(element).css({'height':'auto','overflow-y':'hidden'}).height(element.scrollHeight);
+        }
+        $('textarea').each(function () {
+          setHeight(this);
+        }).on('input', function () {
+          setHeight(this);
+        });
+
+        $('#url_form').submit(function (e) {
+            e.preventDefault();
+            var data=new FormData(this);//获取非文本类的数据
+            $.ajax({
+                url:"purgeCache",//处理页面的路径
+                data:data,//通过json格式将一组数据传过去
+                type:"post",//数据的提交和传递方式，最好用POST
+                dataType:"json",//页面返回值的类型，共有三种：TEXT,JSON,XML可选
+                cache:false,
+                contentType:false,
+                processData:false,
+                success:function(res){//回调函数：如果ajax调用成功，就执行这个success后面的函数，(data)当做参数返回过来
+                    // console.log(res)
+                    // $("#result").append("<li>" + res.detail.url + "</li>");
+                    res.reverse();
+                    for (id = 0, len = res.length; id < len; id++){
+                        if(res[id].status == 200)
+                            $("#" + id + "").css("color", "blue");
+                        else
+                            $("#" + id + "").css("color", "red");
+                        $("#" + id + "")[0].innerText = res[id].msg;
+                    }
+                },
+                error: function (err) {
+                    //  alert("error")
+                    console.log(err)
+                }
+            });
+        });
+        </script>
+    </body>
+
+</html>

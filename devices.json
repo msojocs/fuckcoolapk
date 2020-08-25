@@ -1,0 +1,205 @@
+{
+    "data": [{
+            "value": "LEECO",
+            "text": "乐视",
+            "name": "brand",
+            "children": [{
+                    "value": "Le X620",
+                    "text": "乐 2 (MTK) 全网通版",
+                    "name": "model",
+                    "children": []
+                }, {
+                    "value": "Letv X600",
+                    "text": "乐 1 通用版",
+                    "name": "model",
+                    "children": []
+                }
+            ]
+        }, {
+            "value": "XiaoMi",
+            "text": "小米",
+            "name": "brand",
+            "children": [{
+                    "value": "",
+                    "text": "数字系列",
+                    "children": [{
+                            "value": "",
+                            "text": "小米 1/1S",
+                            "children": [{
+                                    "value": "MI-ONE PLUS",
+                                    "text": "小米 1 联通版",
+                                    "name": "model",
+                                    "children": []
+                                }, {
+                                    "value": "MI-ONE C1",
+                                    "text": "小米 1 电信版",
+                                    "name": "model",
+                                    "children": []
+                                }, {
+                                    "value": "MI-ONE",
+                                    "text": "小米 1 青春版",
+                                    "name": "model",
+                                    "children": []
+                                }
+                            ]
+                        }, {
+                            "value": "",
+                            "text": "小米 10 **",
+                            "children": [{
+                                    "value": "M2007J1SC",
+                                    "text": "小米 10 至尊纪念版 全网通版",
+                                    "name": "model",
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                }, {
+                    "value": "",
+                    "text": "Note 系列",
+                    "children": [{
+                            "value": "2014616",
+                            "text": "小米 Note 双网通版",
+                            "name": "model",
+                            "children": []
+                        },
+                        {
+                            "value": "M2002F4LG",
+                            "text": "小米 Note 10 Lite 国际版",
+                            "name": "model",
+                            "children": []
+                        }
+                    ]
+                }, {
+                    "value": "",
+                    "text": "Mi TV Stick",
+                    "children": [{
+                            "value": "MDZ-24-AA",
+                            "text": "Mi TV Stick",
+                            "name": "model",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "value": "RedMi",
+            "text": "红米",
+            "name": "brand",
+            "children": [{
+                    "value": "",
+                    "text": "K 系列",
+                    "children": [{
+                            "value": "M2006J10C",
+                            "text": "Redmi K30 至尊纪念版 全网通版",
+                            "name": "model",
+                            "children": []
+                        },
+                        {
+                            "value": "M2001J11I",
+                            "text": "Redmi K30 Pro 印度版 [变焦版]",
+                            "name": "model",
+                            "children": []
+                        },
+                        {
+                            "value": "M2001J11E",
+                            "text": "Redmi K30 Pro 变焦版 全网通版",
+                            "name": "model",
+                            "children": []
+                        },
+                        {
+                            "value": "M2001J11C",
+                            "text": "Redmi K30 Pro 全网通版",
+                            "name": "model",
+                            "children": []
+                        },
+                        {
+                            "value": "M1912G7BC",
+                            "text": "Redmi K30 4G 运营商全网通版",
+                            "name": "model",
+                            "children": []
+                        },
+                        {
+                            "value": "M1912G7BE",
+                            "text": "Redmi K30 4G 全网通版",
+                            "name": "model",
+                            "children": []
+                        },
+                        {
+                            "value": "M2001G7AC",
+                            "text": "Redmi K30 5G 全网通版 / Redmi K30i 全网通版",
+                            "name": "model",
+                            "children": []
+                        },
+                        {
+                            "value": "M2001G7AE",
+                            "text": "Redmi K30 5G 全网通版 / Redmi K30 5G 极速版",
+                            "name": "model",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "value": "vivo",
+            "text": "VIVO",
+            "name": "brand",
+            "children": [
+                {
+                "value": "",
+                "text": "IQOO",
+                "children": [
+                    {
+                        "value": "V2025A",
+                        "text": "iQOO 5 Pro 5G 全网通版",
+                        "name": "model",
+                        "children": []
+                    },
+                    {
+                        "value": "V2024A",
+                        "text": "iQOO 5 5G 全网通版",
+                        "name": "model",
+                        "children": []
+                    },
+                    {
+                        "value": "V1824BA",
+                        "text": "iQOO (6GB+128GB)",
+                        "name": "model",
+                        "children": []
+                    },{
+                        "value": "V1824A",
+                        "text": "iQOO (8GB+128GB/8GB+256GB/12GB+128GB/12GB+256GB)",
+                        "name": "model",
+                        "children": []
+                    }
+                    ]
+                }
+            ]
+        },
+        {
+            "value": "samsung",
+            "text": "三星",
+            "name": "brand",
+            "children": [
+                    {
+                        "value": "",
+                        "text": "Galaxy Tab S 系列",
+                        "children": [
+                            
+                            {
+                                "value": "SM-T970",
+                                "text": "Galaxy Tab S7+ WLAN",
+                                "name": "model",
+                                "children": []
+                            },{
+                                "value": "SM-T870",
+                                "text": "Galaxy Tab S7 WLAN",
+                                "name": "model",
+                                "children": []
+                            }
+                            ]
+                    }
+                ]
+        }
+    ]
+}
