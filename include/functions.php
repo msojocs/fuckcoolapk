@@ -405,7 +405,7 @@ function changeBackPic(){
             $imgUrl = $cp->uploadBackPic($_FILES["image"]["tmp_name"]);
             $ret = $cp->changeBackPic($imgUrl);
             // logInfo($ret);
-            $ret = json_decode($re, true);
+            $ret = json_decode($ret, true);
             if(isset($ret['status']))
             {
                 echo $ret;
