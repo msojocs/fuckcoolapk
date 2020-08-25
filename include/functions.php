@@ -93,6 +93,8 @@ function imgRedict($url = null){
     }
     fclose($fp);
 }
+
+// 保存远程图片
 function savePic() {
     $url = isset($_POST['url'])?$_POST['url']:null;
     $ref = isset($_POST['ref'])?$_POST['ref']:null;
@@ -122,10 +124,10 @@ function savePic() {
     echo json_encode($arr);
 }
 
+// 发表动态
 function postFeed()
 {
     header("Content-Type:application/json");
-    // $cookie = "uid=3514543; username=%E5%8D%83%E4%BB%A3%E9%85%B1; token=06806e9cAopmmyudxVLWiLr3lgVHWxPGsqHgKEvEXlZAvyF1tQbfqPKo9eHDqm9sC9SNj7tiQY97_vtCxrpqW6T7NQNG6UwkIkQz56aB0pP8PorGh8fuP3nXHKE3XZYZZqwXhUBuDjxzJO8Py1akHMIjMQxuK1lxxmObFHVkkq-vf2I_0rnlQtpweVYqAyx4YN5OXzcAp-01yL9KeW30gjjxVHkF6w";
     $cookie = isset($_POST['cookie'])?$_POST['cookie']:"";
     $pics = $_POST['pics'];
     if(!empty($pics))
@@ -237,6 +239,7 @@ function uploadPic() {
     echo json_encode($arr);
 }
 
+// 获取图片
 function getImg($file_name) {
     if(empty($file_name))exit("error");
     $md5 = substr($file_name, 0, strpos($file_name, "."));
@@ -324,10 +327,12 @@ function getImg($file_name) {
     }
 }
 
+// 日志记录
 function logInfo($msg) {
     file_put_contents(DIR . "/log/log.log", $msg . PHP_EOL, FILE_APPEND);
 }
 
+// 更换背景图
 function changeBackPic(){
     header("content-type:application/json");
     if($_SERVER['REQUEST_METHOD'] === "POST"){
@@ -362,7 +367,7 @@ function changeBackPic(){
                 $msg = "Missing a temporary folder";
                 break;
             case 7:
-                 $msg = "Failed to write file to disk";
+                $msg = "Failed to write file to disk";
                 break;
             case 8:
                 $msg = "File upload stopped by extension";
@@ -431,6 +436,8 @@ function changeBackPic(){
         }
     }
 }
+
+// 登录或者请求验证码
 function coolLogin(){
     if($_SERVER['REQUEST_METHOD'] === "POST"){
         switch($_POST['type'])
@@ -453,6 +460,7 @@ function coolLogin(){
     exit;
 }
 
+// 登录
 function login(){
     header("Content-Type:application/json");
     $user = isset($_POST['cool_user'])?$_POST['cool_user']:"";
@@ -486,7 +494,16 @@ function login(){
     echo json_encode($arr);
     exit;
 }
-//第一个是原串,第二个是 部份串
+
+
+/**
+ * 检测字符串是否以特定字符串结尾
+ * 
+ * @param haystack 原串
+ * @param needle 部份串
+ * 
+ * @return boolean
+ * */ 
 function endWith($haystack, $needle) {
     $length = strlen($needle);
     if ($length == 0) {

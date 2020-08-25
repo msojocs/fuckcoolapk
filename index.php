@@ -4,7 +4,6 @@ if(1){
     error_reporting(E_ALL & ~E_NOTICE);
 }
 include "load.php";
-$pass = "asdzxc";
 // header("content-type:application/json");
 // print_r($_GET);
 // print_r($_SERVER);
@@ -25,9 +24,11 @@ $path = isset($t[1])?$t[1]:"";
 if(isset($t[2]))$name = $t[2];
 
 switch ($path) {
+    // 远程上传
     case 'save':
         savePic();
         break;
+    // 本地图片
     case "up":
         uploadPic();
         break;
@@ -37,6 +38,8 @@ switch ($path) {
     case "getImg":
         getImg($name);
         break;
+    
+    // LiteSpeed Server 清理缓存
     case "purgeCache":
         purgeCache();
         break;
@@ -54,36 +57,14 @@ switch ($path) {
         else imgRedict();
         break;
     case "upPage":
-        session_start();
-        if(isset($_GET['pass']))
-            $_SESSION['password'] = $_GET['pass'];
-        if($_SESSION['password'] !== $pass)
-        {
-            echo "请输入密码";
-            exit;
-        }
         echo file_get_contents("upPage.html");
         break;
     case "feedPage":
-        session_start();
-        if(isset($_GET['pass']))
-            $_SESSION['password'] = $_GET['pass'];
-        if($_SESSION['password'] !== $pass)
-        {
-            echo "请输入密码";
-            exit;
-        }
         echo file_get_contents("feedPage.html");
         break;
+        
+    // LiteSpeed Server 清理缓存
     case "purgePage":
-        // session_start();
-        // if(isset($_GET['pass']))
-        //     $_SESSION['password'] = $_GET['pass'];
-        // if($_SESSION['password'] !== $pass)
-        // {
-        //     echo "请输入密码";
-        //     exit;
-        // }
         echo file_get_contents("purgePage.html");
         break;
     default:
