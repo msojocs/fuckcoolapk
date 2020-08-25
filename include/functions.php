@@ -336,6 +336,7 @@ function logInfo($msg) {
 function changeBackPic(){
     header("content-type:application/json");
     if($_SERVER['REQUEST_METHOD'] === "POST"){
+        // 检查cookie合法性
         if(strpos($_POST["cookie"], "uid") === false || strpos($_POST["cookie"], "username") === false || strpos($_POST["cookie"], "token") === false)
         {
             $arr = array(
@@ -346,6 +347,7 @@ function changeBackPic(){
             exit;
         }
         $file_name = $_FILES['image']['name'];
+        // 检查上传是否成功
         switch ($_FILES["image"]["error"])
         {
             case 0:
@@ -401,10 +403,13 @@ function changeBackPic(){
         $ext = $ext[count($ext) - 1];
         //取图片的后缀名
         if (in_array($ext, $type)) {
+            // 开始与*安服务器互动
             $cp = new CoolApk($_POST["cookie"]);
+            // 上传背景
             $imgUrl = $cp->uploadBackPic($_FILES["image"]["tmp_name"]);
+            // 更换背景
             $ret = $cp->changeBackPic($imgUrl);
-            // logInfo($ret);
+            // 检查结果
             $ret = json_decode($ret, true);
             if(isset($ret['status']))
             {

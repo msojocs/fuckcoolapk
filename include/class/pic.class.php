@@ -1,4 +1,5 @@
 <?php
+// 图片处理类
 class PIC {
     private $imgPath;
     private $imgInfo;

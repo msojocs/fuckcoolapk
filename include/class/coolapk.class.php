@@ -1,4 +1,5 @@
 <?php
+// *安处理类
 class CoolApk{
     private $cookie;
     private $user;
@@ -81,7 +82,7 @@ class CoolApk{
     Content-Disposition: form-data; name="message"
     Content-Length: 12
     
-    厕所宿舍
+    内容
     --ee696895-4f41-4a30-9c5d-78fe8737b9f5
     Content-Disposition: form-data; name="pic"
     Content-Length: 82
@@ -231,6 +232,9 @@ class CoolApk{
         exit;
     }
 
+    /**
+     * 登录
+     */
     public function login()
     {
         $http = new EasyHttp();
@@ -363,6 +367,10 @@ class CoolApk{
         ));
         return "data:image/jpg/png/gif;base64," . base64_encode($res['body']);
     }
+
+    /**
+     * 上传背景图片
+     */
     public function uploadBackPic($file = "")
     {
         if(empty($file))
@@ -422,8 +430,15 @@ class CoolApk{
             return $ret;
         else return"{$prepare['data']['uploadPrepareInfo']['uploadImagePrefix']}/{$prepare['data']['fileInfo'][0]['uploadFileName']}";
     }
+    /**
+     * 更换背景图片
+     */
     public function changeBackPic($pic)
     {
+        // 设备处理
+        $maker = isset($_POST['maker'])?$_POST['maker']:"LeMobile";
+        $brand = isset($_POST['brand'])?$_POST['brand']:"LeEco";
+        $model = isset($_POST['model'])?$_POST['model']:"Le X620";
         $device = strrev(base64_encode(mt_rand(0, 6666) . "; null;" . mt_rand(0, 999999) . "; 00:B3:3F:7D:95:B0; {$maker}; {$brand}; {$model}"));
         $token = self::getAppToken();
         $http = new EasyHttp();
@@ -458,8 +473,15 @@ class CoolApk{
         if(is_object($res))return false;
         return $res['body'];
     }
+    /**
+     * 上传头像
+     */
     public function uploadAvatar($path)
     {
+        // 设备处理
+        $maker = isset($_POST['maker'])?$_POST['maker']:"LeMobile";
+        $brand = isset($_POST['brand'])?$_POST['brand']:"LeEco";
+        $model = isset($_POST['model'])?$_POST['model']:"Le X620";
         $info = getimagesize($path);
         $device = strrev(base64_encode(mt_rand(0, 6666) . "; null;" . mt_rand(0, 999999) . "; 00:B3:3F:7D:95:B0; {$maker}; {$brand}; {$model}"));
         $token = self::getAppToken();
@@ -506,7 +528,14 @@ class CoolApk{
         ));
         print_r($res['body']);
     }
+    /**
+     * 上传准备
+     */
     private function uploadPrepare(){
+        // 设备处理
+        $maker = isset($_POST['maker'])?$_POST['maker']:"LeMobile";
+        $brand = isset($_POST['brand'])?$_POST['brand']:"LeEco";
+        $model = isset($_POST['model'])?$_POST['model']:"Le X620";
         $device = strrev(base64_encode(mt_rand(0, 6666) . "; null;" . mt_rand(0, 999999) . "; 00:B3:3F:7D:95:B0; {$maker}; {$brand}; {$model}"));
         $token = self::getAppToken();
         $http = new EasyHttp();
